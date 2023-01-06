@@ -1,0 +1,51 @@
+{% extends "VSCrypto/layout.html" %}
+
+{% block body %}
+<section>
+    <div class="table-responsive">
+        <table class="sort table mb-0 text-white table-hover">
+            <thead>
+                <tr border-radius: 10px>
+                    <th scope="col">#</th>
+                    <th scope="col">Coin</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Mkt Cap</th>
+                    <th scope="col">Last 7 Days</th>
+                </tr>
+            </thead>
+            <tbody id="myTable">
+                {% for i in apidata %}
+                <tr id="{{i.id}}" class="coinbtn">
+                    <td>{{i.market_cap_rank}}</td>
+                    <td>
+                        <div class="d-inline-flex p-2">
+                            <div class="tw-w-5 tw-mr-1 lg:tw-mr-2 center tw-flex-column">
+                                <img loading="lazy" src="{{i.image}}" class="sym_icon">
+                            </div>
+                            <div class="tw-flex-auto">
+                                <a href="{% url 'coin' i.id %}" class="tw-flex tw-items-start md:tw-flex-row tw-flex-col">
+                                    <span class="align-middle">{{i.name}}</span>
+                                    <span class="align-middle tw-text-gray-500 text-secondary opacity-75 text-uppercase ml-3">{{i.symbol}}</span>
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="updateP" id="{{i.id}}">$ {{i.current_price}}</td>
+                    <td>$ {{i.market_cap}}</td>
+                    <td>
+                        <a href="#">
+                            <img loading="lazy" width="135" height="50" alt="bitcoin (BTC) 7d chart" src="https://www.coingecko.com/coins/{{i.market_cap_rank}}/sparkline">
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td><a href="{% url 'all' pagep1 %}">View more..</a></td>
+                </tr>
+            </tfoot>
+        </table>
+    <div>
+</section>
+{% endblock body %}

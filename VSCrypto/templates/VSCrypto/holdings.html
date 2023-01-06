@@ -1,0 +1,30 @@
+{% extends "VSCrypto/layout.html" %}
+
+{% block body %}
+<div class="container">
+    <div>
+        {% if user.is_authenticated %}
+        <div id="holdingsbox" style="height: 128vh;">
+            <h3 class="col px-md-5 pt-md-5 pd-mt-n1">My Portfolio</h3>
+            <br>
+            {% if holdings %}
+                {% for holding in holdings %}
+                    <div>
+                        <div class="tw-flex-auto bgpf m-2">
+                            <a href="{% url 'coin' holding.coinid %}" class="tw-flex tw-items-start md:tw-flex-row tw-flex-col">
+                                <span class="align-middle" style="color:black">{{holding.coinid}}</span>
+                            </a>
+                            <a href="{% url 'sell' holding.coinid holding.buyprice holding.quantity%}" class="btn btn-primary btn-lg float-right" style="border-radius: 20px; background: #195e5e;">Sell</a>
+                            <div>Avg Price : {{holding.buyprice}}</div>
+                            <div>Qty : {{holding.quantity}}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+            <h6 class="col px-md-5 pt-md-5 pd-mt-n1 text-center text-secondary align-middle">YOU CURRENTLY HAVE NO ACTIVE HOLDINGS.</h6>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock body %}

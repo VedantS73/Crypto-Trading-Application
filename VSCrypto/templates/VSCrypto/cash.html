@@ -1,0 +1,48 @@
+{% extends "VSCrypto/layout.html" %}
+
+{% block body %}
+<div class="container">
+    <div>
+        <div id="holdings">
+            {% if user.is_authenticated %}
+            <h3 class="col px-md-5 pt-md-5 pd-mt-n1 blacktxt">My Balance</h3>
+            <h1 class="col px-md-5 py-md-5 blacktxt holdingcash">$ {{userdata.balance|floatformat:2}}</h1>
+            {% else %}
+            <h2 class="col px-md-5 py-md-5 pd-mt-n1 blacktxt">Kindly Log in to view your holdings.</h2>
+            {% endif %}
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm wdpos">
+                <h3 class="px-md-5 py-md-3 pd-mt-n2">Withdraw</h3>
+                <h4 class="col-lg-2 px-md-5 pt-md-4">Cash</h4>
+                <form action="{% url 'withdraw' %}" method="post">
+                    {% csrf_token %}
+                    <div class="col-6 pt-md-4 pb-md-2 ">
+                        <input type="number" class="ml-4 form-control form-control-lg" name="quantity" />
+                    </div>
+                    <br />
+                    {% if user.is_authenticated%}
+                        <input type="submit" value="Withdraw" class="btn my-md-4 p-md-4 w-100 bbtn"/>
+                    {% endif %}
+                </form>
+            </div>
+            <div class="col-sm wdpos">
+                <h3 class="px-md-5 py-md-3 pd-mt-n2">Deposit</h3>
+                <h4 class="col-lg-2 px-md-5 pt-md-4">Cash</h4>
+                <form action="{% url 'deposit' %}" method="post">
+                    {% csrf_token %}
+                    <div class="col-6 pt-md-4 pb-md-2 ">
+                        <input type="number" class="ml-4 form-control form-control-lg" name="quantity" />
+                    </div>
+                    <br />
+                    {% if user.is_authenticated%}
+                        <input type="submit" value="Deposit" class="btn my-md-4 p-md-4 w-100 bbtn"/>
+                    {% endif %}
+                </form>
+            </div>
+          </div>
+    </div>
+</div>
+{% endblock body %}

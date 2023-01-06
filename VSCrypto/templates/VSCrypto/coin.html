@@ -1,0 +1,100 @@
+{% extends "VSCrypto/layout.html" %} {% block body %} {% for i in apidata %}
+<div class="row px-2">
+  <div class="col-sm-8">
+    <div class="d-inline-flex p-2">
+      <div class="tw-w-5 tw-mr-1 lg:tw-mr-2 center tw-flex-column">
+        <img src="{{i.image}}" style="height: 50px" />
+      </div>
+      <div class="tw-flex-auto">
+        <h1 class="align-middle ml-3">{{i.name}} ({{i.symbol}})</h1>
+      </div>
+    </div>
+    <br />
+    <div class="d-inline-flex p-2">
+      <div>
+        <p class="display-2 coinpageprice" id="{{i.id}}">{{i.current_price}}</p>
+      </div>
+      <div>
+        {% if i.price_change_24h %}
+        <p style="color: green">{{i.price_change_24h}}</p>
+        {% else %}
+        <p style="color: red">{{i.price_change_24h}}</p>
+        {% endif %}
+      </div>
+    </div>
+    <br />
+    <br />
+    <table class="table mb-0 text-white table-hover">
+      <tbody>
+        <tr>
+          <td class="font-weight-bold">Market Cap :</td>
+          <td>{{i.market_cap}}</td>
+        </tr>
+        <tr>
+          <td class="font-weight-bold">Market Cap Rank :</td>
+          <td>{{i.market_cap_rank}}</td>
+        </tr>
+        <tr>
+          <td class="font-weight-bold">Total Volume :</td>
+          <td>{{i.total_volume}}</td>
+        </tr>
+        <tr>
+          <td class="font-weight-bold">24Hr High :</td>
+          <td>{{i.high_24h}}</td>
+        </tr>
+        <tr>
+          <td class="font-weight-bold">24Hr Low :</td>
+          <td>{{i.low_24h}}</td>
+        </tr>
+        <tr>
+          <td class="font-weight-bold">24Hr Price Change :</td>
+          <td>{{i.price_change_24h}}</td>
+        </tr>
+        <tr>
+          <td class="font-weight-bold">Circulating Supply :</td>
+          <td>{{i.circulating_supply}}</td>
+        </tr>
+        <tr>
+          <td class="font-weight-bold">Total Supply :</td>
+          <td>{{i.total_supply}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-sm-4">
+    <div>
+      <div id="holdingsbox">
+        <h3 class="col px-md-5 pt-md-5 pd-mt-n1">Buy</h3>
+        <br />
+        <div class="container">
+          <div class="row">
+            <form action="{% url 'buy' i.id%}" method="post" class="w-100">
+              {% csrf_token %}
+              <img src="{{i.image}}" name="imgurl" value="{{i.image}}" style="display:none"/>
+              <div class="col-lg-2 px-md-5 pt-md-4">
+                <h4>Qty</h4>
+              </div>
+              <div class="col-6 pt-md-4 pb-md-2">
+                <input type="number" class="ml-4 form-control form-control-lg" name="quantity" />
+              </div>
+              <div class="w-100"></div>
+              <div class="col-lg-2 px-md-5 pt-md-5">
+                <h4>Price</h4>
+              </div>
+              <div class="col-6 pt-md-5 pb-md-2">
+                <input type="text" readonly class="ml-4 form-control form-control-lg" value="{{i.current_price}}" name="price" />
+              </div>
+              <br />
+              {% if user.is_authenticated%}
+              <input type="submit" value="Buy" class="btn btn-success my-md-4 p-md-4 w-100" />
+              {% else %}
+              <input type="submit" value="Log in to Buy" class="btn btn-success my-md-4 p-md-4 w-100" disabled />
+              {% endif %}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %} {% endblock body %}
